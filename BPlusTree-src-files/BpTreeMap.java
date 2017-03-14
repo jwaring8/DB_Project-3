@@ -62,7 +62,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
         /****************************************************************************
          * Construct a node.
          * @param p       the order of the node (max refs)
-         * @param isLeaf  whether the node is a leaf
+         * @param _isLeaf  whether the node is a leaf
          */
         @SuppressWarnings("unchecked")
         Node (int p, boolean _isLeaf)
@@ -206,13 +206,19 @@ public class BpTreeMap <K extends Comparable <K>, V>
 
     /********************************************************************************
      * Return the last (largest) key in the B+Tree map.
+     * @author Asheton Harrell
      * @return  the last key in the B+Tree map.
      */
     public K lastKey () 
     {
         //  T O   B E   I M P L E M E N T E D
+        Node n = root;
+        Node last = (Node) n.ref[n.nKeys];
 
-        return null;
+//       Object bottomLevel = n.ref[n.nKeys];
+//       out.println((K [])bottomLevel[n.]);
+
+        return last.key[last.nKeys -1];
     } // lastKey
 
     /********************************************************************************
@@ -340,6 +346,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
         } // if
 
         if (DEBUG) print (root, 0);
+        keyCount++;
         return rt;                                                           // return right node
     } // insert
 
@@ -431,6 +438,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
         } // for
         out.println ("-------------------------------------------");
         out.println ("Average number of nodes accessed = " + bpt.count / (double) totalKeys);
+        out.println(bpt.lastKey());
     } // main
 
 } // BpTreeMap class
