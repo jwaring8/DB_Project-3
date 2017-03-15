@@ -166,6 +166,16 @@ public class BpTreeMap <K extends Comparable <K>, V>
     public Set <Map.Entry <K, V>> entrySet ()
     {
         Set <Map.Entry <K, V>> enSet = new HashSet <> ();
+        Node current = (Node) root.ref[0];
+        while (current != null)
+        {
+            for (int i = 0; i < root.nKeys; i++)
+            {
+                enSet.add(new AbstractMap.SimpleEntry(current.key[i], current.ref[i]));
+            } // for
+
+            current = (Node) current.ref[ORDER];
+        } // while
 
         //  T O   B E   I M P L E M E N T E D
             
@@ -415,7 +425,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
 
     /********************************************************************************
      * The main method used for testing.
-     * @param  the command-line arguments (args[0] gives number of keys to insert)
+     * @param args the command-line arguments (args[0] gives number of keys to insert)
      */
     public static void main (String [] args)
     {
