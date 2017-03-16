@@ -352,32 +352,39 @@ public class BpTreeMap <K extends Comparable <K>, V>
             if (DEBUG) out.println ("insert: handle internal node level");
 
                 //  T O   B E   I M P L E M E N T E D
-	    if(rt != null) {
-		Node nr = null;
+	    if(hasSplit) {
+		Node nr = new Node(ORDER, false);
 		if(n == root)
 		    nr = (Node) n.ref[n.nKeys];
-		else{
-		    out.println(n);
-		    Node nl = (Node) n.ref[0];
-		    Node rn = (Node) n.ref[2];
-		    out.println(nl);
-		    out.println(nr);
-		    //nr = (Node) nl.ref[n.nKeys];
+		else {
+		    int j = n.find(key);
+		    nr = (Node) n.ref[j]; 
 		}
 		K newKey = nr.key[nr.nKeys-1];
-		if((n == root && n.nKeys < ORDER - 1) || n!= root)
+		if(n.nKeys < ORDER - 1 || n.isLeaf) {
 		    wedge(newKey, rt, n, n.find (key), false);
-		else {
-		    Node newRt = split(newKey, rt, n, false); 
+		}
+		else if(n==root){
+		    Node newRt = split(newKey, rt, n, false);
 		    K rootKey = n.key[n.nKeys-1];
 		    Node left = new Node (ORDER, false);
-		    left.copy(n, 0, n.find(rootKey));
+		    left.copy(n, 0, n.find(rootKey));	    
 		    root = makeRoot (left, n.key[n.nKeys-1], newRt);
 		    Node rootChild1 = (Node) root.ref[0];
 		    Node rootChild2 = (Node) root.ref[1];
 		    rootChild1.isLeaf = false;
 		    rootChild2.isLeaf = false;
+		}//else if
+		else{
+		    Node newrt =  split(newKey, rt, n, false);
+		    K rootKey = n.key[n.nKeys-1];
+		    Node left = new Node (ORDER, false);
+		    left.copy(n, 0, n.find(rootKey));
+		    //int k = left.find(rootKey);
+		    //left.ref[k] = newrt;
+		    wedge(rootKey, left, root, root.find(rootKey), true);
 		}
+		hasSplit = false;
 	    }
         } // if
 
@@ -457,7 +464,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
     {
         int totalKeys    = 18;                    
         boolean RANDOMLY = false;
-	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13}; 
+	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40}; 
 
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
         if (args.length == 1) totalKeys = Integer.valueOf (args[0]);
