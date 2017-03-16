@@ -31,7 +31,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
     /** The maximum fanout (number of children) for a B+Tree node.
      *  May wish to increase for better performance for Program 3.
      */
-    private static final int ORDER = 5;
+    private static final int ORDER = 4;
 
     /** The maximum fanout (number of children) for a big B+Tree node.
      */
@@ -334,7 +334,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
         if (n.isLeaf) {                                                      // handle leaf node level
 
             if (n.nKeys < ORDER - 1) {                                       // current node is not full
-                wedge (key, ref, n, n.find (key), true);                     // wedge (key, ref) pair in at position i
+                wedge(key, ref, n, n.find (key), true);                     // wedge (key, ref) pair in at position i
             } else {                                                         // current node is full
                 rt = split (key, ref, n, true);                              // split current node, return right sibling
                 n.ref[n.nKeys] = rt;                                         // link leaf n to leaf rt
@@ -352,7 +352,33 @@ public class BpTreeMap <K extends Comparable <K>, V>
             if (DEBUG) out.println ("insert: handle internal node level");
 
                 //  T O   B E   I M P L E M E N T E D
-
+	    if(rt != null) {
+		Node nr = null;
+		if(n == root)
+		    nr = (Node) n.ref[n.nKeys];
+		else{
+		    out.println(n);
+		    Node nl = (Node) n.ref[0];
+		    Node rn = (Node) n.ref[2];
+		    out.println(nl);
+		    out.println(nr);
+		    //nr = (Node) nl.ref[n.nKeys];
+		}
+		K newKey = nr.key[nr.nKeys-1];
+		if((n == root && n.nKeys < ORDER - 1) || n!= root)
+		    wedge(newKey, rt, n, n.find (key), false);
+		else {
+		    Node newRt = split(newKey, rt, n, false); 
+		    K rootKey = n.key[n.nKeys-1];
+		    Node left = new Node (ORDER, false);
+		    left.copy(n, 0, n.find(rootKey));
+		    root = makeRoot (left, n.key[n.nKeys-1], newRt);
+		    Node rootChild1 = (Node) root.ref[0];
+		    Node rootChild2 = (Node) root.ref[1];
+		    rootChild1.isLeaf = false;
+		    rootChild2.isLeaf = false;
+		}
+	    }
         } // if
 
         if (DEBUG) print (root, 0);
@@ -429,8 +455,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
      */
     public static void main (String [] args)
     {
-        int totalKeys    = 14;                    
+        int totalKeys    = 18;                    
         boolean RANDOMLY = false;
+	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13}; 
 
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
         if (args.length == 1) totalKeys = Integer.valueOf (args[0]);
@@ -439,7 +466,8 @@ public class BpTreeMap <K extends Comparable <K>, V>
             Random rng = new Random ();
             for (int i = 1; i <= totalKeys; i += 2) bpt.put (rng.nextInt (2 * totalKeys), i * i);
         } else {
-            for (int i = 1; i <= totalKeys; i += 2) bpt.put (i, i * i);
+	    // for (int i = 1; i <= totalKeys; i += 2) bpt.put (i, i * i);
+	    for(int value : keys) bpt.put(value, value * value);
         } // if
 
         bpt.print (bpt.root, 0);
