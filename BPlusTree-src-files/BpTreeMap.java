@@ -238,10 +238,13 @@ public class BpTreeMap <K extends Comparable <K>, V>
     public SortedMap <K,V> headMap (K toKey)
     {
         //  T O   B E   I M P L E M E N T E D
-
-        return null;
+        
+        
+        return subMap(null, toKey);
+        
+        //return null;
     } // headMap
-
+    
     /********************************************************************************
      * Return the portion of the B+Tree map where fromKey <= key.
      * @return  the submap with keys in the range [fromKey, lastKey]
@@ -249,20 +252,61 @@ public class BpTreeMap <K extends Comparable <K>, V>
     public SortedMap <K,V> tailMap (K fromKey)
     {
         //  T O   B E   I M P L E M E N T E D
-
-        return null;
+        
+        
+        return subMap(fromKey, null);
+        
+        //return null;
     } // tailMap
-
+    
     /********************************************************************************
      * Return the portion of the B+Tree map whose keys are between fromKey and toKey,
      * i.e., fromKey <= key < toKey.
      * @return  the submap with keys in the range [fromKey, toKey)
      */
-    public SortedMap <K,V> subMap (K fromKey, K toKey)
-    {
-        //  T O   B E   I M P L E M E N T E D
-
-        return null;
+    public SortedMap <K,V> subMap (K fromKey, K toKey) {
+        BpTreeMap <K, V> newSubMap = new BpTreeMap <> (classK, classV);
+        K firstK, secondK;
+        Node tempNode = root;
+        boolean LeafBool = false;
+        int I = 0;
+        
+        if(fromKey == null){firstK = firstKey();}
+        else{firstK = fromKey;}
+        
+        if(toKey == null){secondK = lastKey();}
+        else{secondK = toKey;}
+        
+        while (!LeafBool) {
+            if (tempNode.ref[0].getClass() != Node.class){break;}
+            for (int i = 0; i < tempNode.nKeys; i++) {
+                K key = tempNode.key[i];
+                if (firstK.compareTo(key) < 0) {
+                    tempNode = (Node) tempNode.ref[i];
+                    break;
+                }
+                tempNode = (Node) tempNode.ref[tempNode.nKeys];
+            }
+        }
+        
+        for (int i = 0;i < tempNode.nKeys;i ++){
+            if (tempNode.key[i].compareTo(firstK) == 0){
+                I = i;
+                break;
+            }
+        }
+        
+        while (tempNode != null){
+            for (int i = I;i < tempNode.nKeys;i ++){
+                K key = tempNode.key[i];
+                if (key.compareTo(secondK) > 0){return newSubMap;}
+                newSubMap.put(key, (V) tempNode.ref[i]);
+            }
+            tempNode = (Node) tempNode.ref[ORDER];
+            I = 0;
+        }
+        
+        return newSubMap;
     } // subMap
 
     /********************************************************************************
@@ -521,6 +565,24 @@ public class BpTreeMap <K extends Comparable <K>, V>
         out.println ("-------------------------------------------");
         out.println ("Average number of nodes accessed = " + bpt.count / (double) totalKeys);
         out.println(bpt.lastKey());
+        
+        
+        
+        
+        /*testing submap
+            - remove 40 and all keys after to test this until insert is done.
+            - sometimes a wierd nullpointer error happens but still prints the subtree..
+         */
+        out.println("-------------------------------------------------------------");
+        out.println("-----------------------SUBMAPPING TEST-----------------------");
+        out.println("-------------------------------------------------------------");
+        
+        BpTreeMap <Integer, Integer> subTree = (BpTreeMap) bpt.subMap(4, 12);
+        subTree.print(subTree.root, 1);
+        
+        out.println("-------------------------------------------------------------");
+        out.println("-----------------------SUBMAPPING TEST-----------------------");
+        out.println("-------------------------------------------------------------");
     } // main
 
 } // BpTreeMap class
