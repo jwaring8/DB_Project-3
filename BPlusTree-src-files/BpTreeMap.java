@@ -351,6 +351,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
             rt = insert (key, ref, (Node) n.ref[i]);                         // recursive call to insert
             if (DEBUG) out.println ("insert: handle internal node level");
 
+	    
                 //  T O   B E   I M P L E M E N T E D
 	    if(hasSplit) {
 		int j = n.find(key);
@@ -378,13 +379,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
 		    }//if
 		    //handle when parent is internal node 
 		    else{
-			//System.out.println(newKey);
-			//System.out.println(rt);
-			//System.out.println(n);
-			//int k = n.find(newKey);
-			//System.out.println(n.ref[k]);
 			Node newrt = split(newKey, rt, n, false);
 			n.ref[n.nKeys] = newrt;
+			n.copy(n, 0, n.find(n.key[n.nKeys])-1);
 			rt = newrt;
 			hasSplit = true;
 		    }
@@ -393,8 +390,36 @@ public class BpTreeMap <K extends Comparable <K>, V>
 		else if(!nr.isLeaf) {
 		    //handle when parent of split won't overflow
 		    if(n.nKeys < ORDER - 1){
+			Node leftBig = (Node) nr.ref[nr.nKeys];
+			System.out.println(leftBig);
+			newKey = leftBig.key[leftBig.nKeys-1];
+			System.out.println(newKey);
 			wedge(newKey, rt, n, n.find (key), false);
 			hasSplit = false;
+		    }
+		    //handle when parent of split will overflow
+		    else{
+			if(n == root) {
+			    Node leftBig = (Node) nr.ref[nr.nKeys];
+			    newKey = leftBig.key[leftBig.nKeys-1];
+			    Node newRt = split(newKey, rt, n, false);
+			    K rootKey = n.key[n.nKeys-1];
+			    Node left = new Node (ORDER, false);
+			    left.copy(n, 0, n.find(rootKey));	    
+			    root = makeRoot (left, n.key[n.nKeys-1], newRt);
+			    Node rootChild1 = (Node) root.ref[0];
+			    Node rootChild2 = (Node) root.ref[1];
+			    rootChild1.isLeaf = false;
+			    rootChild2.isLeaf = false;
+			    hasSplit = false;
+			}
+			else {
+			    Node newrt = split(newKey, rt, n, false);
+			    n.ref[n.nKeys] = newrt;
+			    n.copy(n, 0, n.find(n.key[n.nKeys])-1);
+			    rt = newrt;
+			    hasSplit = true;
+			}
 		    }
 		}
 	    }
@@ -476,7 +501,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
     {
         int totalKeys    = 18;                    
         boolean RANDOMLY = false;
-	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40}; 
+	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40, 8, 9, 7, 6, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}; 
 
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
         if (args.length == 1) totalKeys = Integer.valueOf (args[0]);
