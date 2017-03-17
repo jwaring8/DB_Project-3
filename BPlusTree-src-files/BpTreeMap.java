@@ -391,9 +391,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
 		    //handle when parent of split won't overflow
 		    if(n.nKeys < ORDER - 1){
 			Node leftBig = (Node) nr.ref[nr.nKeys];
-			System.out.println(leftBig);
-			newKey = leftBig.key[leftBig.nKeys-1];
-			System.out.println(newKey);
+			newKey = leftBig.key[ORDER - 3];
+			// System.out.println(leftBig);
+			//System.out.println(newKey);
 			wedge(newKey, rt, n, n.find (key), false);
 			hasSplit = false;
 		    }
@@ -401,7 +401,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
 		    else{
 			if(n == root) {
 			    Node leftBig = (Node) nr.ref[nr.nKeys];
-			    newKey = leftBig.key[leftBig.nKeys-1];
+			    newKey = leftBig.key[ORDER - 3];
+			    //System.out.println(leftBig);
+			    //System.out.println(newKey);
 			    Node newRt = split(newKey, rt, n, false);
 			    K rootKey = n.key[n.nKeys-1];
 			    Node left = new Node (ORDER, false);
@@ -499,8 +501,8 @@ public class BpTreeMap <K extends Comparable <K>, V>
      */
     public static void main (String [] args)
     {
-        int totalKeys    = 18;                    
-        boolean RANDOMLY = false;
+        int totalKeys    = 25;                    
+        boolean RANDOMLY = true;
 	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40, 8, 9, 7, 6, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}; 
 
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
@@ -508,7 +510,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
    
         if (RANDOMLY) {
             Random rng = new Random ();
-            for (int i = 1; i <= totalKeys; i += 2) bpt.put (rng.nextInt (2 * totalKeys), i * i);
+            for (int i = 1; i <= totalKeys; i += 1) bpt.put (rng.nextInt (2 * totalKeys), i * i);
         } else {
 	    // for (int i = 1; i <= totalKeys; i += 2) bpt.put (i, i * i);
 	    for(int value : keys) bpt.put(value, value * value);
