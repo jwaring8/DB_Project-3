@@ -353,41 +353,53 @@ public class BpTreeMap <K extends Comparable <K>, V>
 
                 //  T O   B E   I M P L E M E N T E D
 	    if(hasSplit) {
-		Node nr = new Node(ORDER, false);
-		if(n == root)
-		    nr = (Node) n.ref[n.nKeys];
-		else {
-		    int j = n.find(key);
-		    nr = (Node) n.ref[j]; 
-		}
+		int j = n.find(key);
+		Node nr = (Node) n.ref[j];
 		K newKey = nr.key[nr.nKeys-1];
-		if(n.nKeys < ORDER - 1 || n.isLeaf) {
+		//handle split at leaf when parent node doesn't overflow
+		if(n.nKeys < ORDER - 1 && nr.isLeaf) {
 		    wedge(newKey, rt, n, n.find (key), false);
+		    hasSplit = false;
 		}
-		else if(n==root){
-		    Node newRt = split(newKey, rt, n, false);
-		    K rootKey = n.key[n.nKeys-1];
-		    Node left = new Node (ORDER, false);
-		    left.copy(n, 0, n.find(rootKey));	    
-		    root = makeRoot (left, n.key[n.nKeys-1], newRt);
-		    Node rootChild1 = (Node) root.ref[0];
-		    Node rootChild2 = (Node) root.ref[1];
-		    rootChild1.isLeaf = false;
-		    rootChild2.isLeaf = false;
+		//handle split at leaf when parent node does overflow
+		else if(!(n.nKeys < ORDER - 1) && nr.isLeaf) {
+		    //handle when parent is root
+		    if(n==root){
+			Node newRt = split(newKey, rt, n, false);
+			K rootKey = n.key[n.nKeys-1];
+			Node left = new Node (ORDER, false);
+			left.copy(n, 0, n.find(rootKey));	    
+			root = makeRoot (left, n.key[n.nKeys-1], newRt);
+			Node rootChild1 = (Node) root.ref[0];
+			Node rootChild2 = (Node) root.ref[1];
+			rootChild1.isLeaf = false;
+			rootChild2.isLeaf = false;
+			hasSplit = false;
+		    }//if
+		    //handle when parent is internal node 
+		    else{
+			//System.out.println(newKey);
+			//System.out.println(rt);
+			//System.out.println(n);
+			//int k = n.find(newKey);
+			//System.out.println(n.ref[k]);
+			Node newrt = split(newKey, rt, n, false);
+			n.ref[n.nKeys] = newrt;
+			rt = newrt;
+			hasSplit = true;
+		    }
 		}//else if
-		else{
-		    Node newrt =  split(newKey, rt, n, false);
-		    K rootKey = n.key[n.nKeys-1];
-		    Node left = new Node (ORDER, false);
-		    left.copy(n, 0, n.find(rootKey));
-		    //int k = left.find(rootKey);
-		    //left.ref[k] = newrt;
-		    wedge(rootKey, left, root, root.find(rootKey), true);
+		//handle when split happened at internal node
+		else if(!nr.isLeaf) {
+		    //handle when parent of split won't overflow
+		    if(n.nKeys < ORDER - 1){
+			wedge(newKey, rt, n, n.find (key), false);
+			hasSplit = false;
+		    }
 		}
-		hasSplit = false;
 	    }
-        } // if
-
+	} // if
+	
         if (DEBUG) print (root, 0);
         keyCount++;
         return rt;                                                           // return right node
