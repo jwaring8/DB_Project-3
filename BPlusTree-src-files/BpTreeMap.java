@@ -364,7 +364,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
      * @param key  the key to insert
      * @param ref  the value/node to insert
      * @param n    the current node
-     * @return  the newly allocated right sibling node of n 
+     * @return  the newly allocated right sibling node of n
+     *
+     * @author Jonathan Waring
      */
     @SuppressWarnings("unchecked")
     private Node insert (K key, V ref, Node n)
@@ -395,8 +397,6 @@ public class BpTreeMap <K extends Comparable <K>, V>
             rt = insert (key, ref, (Node) n.ref[i]);                         // recursive call to insert
             if (DEBUG) out.println ("insert: handle internal node level");
 
-	    
-                //  T O   B E   I M P L E M E N T E D
 	    if(hasSplit) {
 		int j = n.find(key);
 		Node nr = (Node) n.ref[j];
