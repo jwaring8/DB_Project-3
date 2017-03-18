@@ -157,11 +157,22 @@ public class Table
             int rowIndex = 0; //keep track of index of new row for adding elements
             for(int j = 0; j < this.attribute.length; j++) { //iterate over all original attributes
                 if(Arrays.asList(attrs).contains(this.attribute[j])) { //condition for projection
-                    row[rowIndex] = tuple[j]; //add projected elements to our new row
-                    rowIndex ++; //increment index
+		    row[rowIndex] = tuple[j]; //add projected elements to our new row
+		    rowIndex ++; //increment index
                 }
             }
-            rows.add(row); //add new row to our new tuple set for new table
+	    boolean duplicate = false;
+	    Comparable[] one = new Comparable[rowIndex];
+	    for(int j = 0; j < rowIndex; j++)
+		one[j] = row[j];
+	    for(int k = 0; k < rows.size(); k++) {
+		Comparable[] two = rows.get(k);
+		if(Arrays.equals(one, two)) {
+		    duplicate = true;
+		}
+	    }
+	    if(!duplicate)  //check for duplicate elements
+		rows.add(row); //add new row to our new tuple set for new table
         }
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
