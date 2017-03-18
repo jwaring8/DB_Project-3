@@ -302,7 +302,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
                 if (key.compareTo(secondK) > 0){return newSubMap;}
                 newSubMap.put(key, (V) tempNode.ref[i]);
             }
-            tempNode = (Node) tempNode.ref[ORDER];
+            tempNode = (Node) tempNode.ref[ORDER-1];
             I = 0;
         }
         
@@ -546,7 +546,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
     public static void main (String [] args)
     {
         int totalKeys    = 25;                    
-        boolean RANDOMLY = true;
+        boolean RANDOMLY = false;
 	int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40, 8, 9, 7, 6, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}; 
 
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
