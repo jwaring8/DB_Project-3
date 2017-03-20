@@ -175,7 +175,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
                 enSet.add(new SimpleEntry(current.key[i], current.ref[i]));
             } // for
             
-            current = (Node) current.ref[ORDER];
+            current = (Node) current.ref[ORDER-1];
         } // while
         
         return enSet;
