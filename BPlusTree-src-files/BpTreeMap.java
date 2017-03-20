@@ -162,6 +162,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
     /********************************************************************************
      * Return a set containing all the entries as pairs of keys and values.
      * @return  the set view of the map
+     * @author James Griffin
      */
     public Set <Entry <K, V>> entrySet ()
     {
@@ -176,8 +177,6 @@ implements Serializable, Cloneable, SortedMap <K, V>
             
             current = (Node) current.ref[ORDER];
         } // while
-        
-        //  T O   B E   I M P L E M E N T E D
         
         return enSet;
     } // entrySet
