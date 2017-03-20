@@ -31,7 +31,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
     /** The maximum fanout (number of children) for a B+Tree node.
      *  May wish to increase for better performance for Program 3.
      */
-    private static final int ORDER =4;
+    private static final int ORDER =5;
     
     /** The maximum fanout (number of children) for a big B+Tree node.
      */
@@ -572,7 +572,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
         out.println("-----------------------SUBMAPPING TEST-----------------------");
         out.println("-------------------------------------------------------------");
         @SuppressWarnings("unchecked")
-        BpTreeMap <Integer, Integer> subTree = (BpTreeMap) bpt.subMap(7, 13);
+        BpTreeMap <Integer, Integer> subTree = (BpTreeMap) bpt.subMap(5, 13);
         subTree.print(subTree.root, 0);
         
         out.println("-------------------------------------------------------------");
