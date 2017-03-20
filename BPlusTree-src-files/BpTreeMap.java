@@ -223,8 +223,10 @@ implements Serializable, Cloneable, SortedMap <K, V>
     {
         //  T O   B E   I M P L E M E N T E D
         Node n = root;
-        Node last = (Node) n.ref[n.nKeys];
-        
+	//        Node last = (Node) n.ref[n.nKeys];
+	while(!n.isLeaf){
+	    n = (Node) n.ref[n.nKeys];
+	}        
         //       Object bottomLevel = n.ref[n.nKeys];
         //       out.println((K [])bottomLevel[n.]);
         
