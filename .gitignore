@@ -4,3 +4,13 @@ BPlusTree-src-files/BpTreeMap.class
 BPlusTree-src-files/BpTreeMap.java~
 
 BPlusTree-src-files/BpTreeMap$Node.class
+
+BPlusTree-src-files/MovieDB.java
+
+BPlusTree-src-files/MovieDB.java
+
+*.class
+
+*.dbf
+
+*.java~

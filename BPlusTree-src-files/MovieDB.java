@@ -11,7 +11,7 @@ import static java.lang.System.out;
  * databases.  See "Database Systems: The Complete Book", second edition, page 26 for more
  * information on the Movie Database schema.
  */
-class MovieDB
+class MovieDB 
 {
     /*************************************************************************************
      * Main method for creating, populating and querying a Movie Database.
@@ -84,6 +84,7 @@ class MovieDB
         studio.insert (studio1);
         studio.insert (studio2);
         studio.print ();
+<<<<<<< Updated upstream
         
         movie.save ();
         cinema.save ();
@@ -92,6 +93,16 @@ class MovieDB
         movieExec.save ();
         studio.save ();
         
+=======
+
+	movie.save();
+        cinema.save();
+        movieStar.save();
+        starsIn.save();
+        movieExec.save();
+        studio.save();
+
+>>>>>>> Stashed changes
         movieStar.printIndex ();
         
         //--------------------- project: title year

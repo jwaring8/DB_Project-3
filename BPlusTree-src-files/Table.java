@@ -17,9 +17,13 @@ import static java.lang.System.out;
  * select, union, minus and join. The insert data manipulation operator is also provided.
  * Missing are update and delete data manipulation operators.
  */
+<<<<<<< Updated upstream
 public class Table
 implements Serializable
 {
+=======
+public class Table{
+>>>>>>> Stashed changes
     /** Relative path for storage directory
      */
     private static final String DIR = "store" + File.separator;
@@ -29,6 +33,7 @@ implements Serializable
     private static final String EXT = ".dbf";
     
     /** Counter for naming temporary tables.
+
      */
     private static int count = 0;
     
@@ -620,6 +625,7 @@ implements Serializable
     /************************************************************************************
      * Save this table in a file.
      */
+<<<<<<< Updated upstream
     public void save ()
     {
         try {
@@ -634,6 +640,15 @@ implements Serializable
             
             oos.writeObject(this);
             oos.close();
+=======
+    public void save (){
+	try{
+
+        ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream (DIR + name + EXT));
+	oos.writeObject(this);
+	oos.close();
+
+>>>>>>> Stashed changes
         } catch (IOException ex) {
             out.println("save: IO Exception");
             ex.printStackTrace();
