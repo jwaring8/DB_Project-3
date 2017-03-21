@@ -95,7 +95,6 @@ class MovieDB
         studio.insert (studio1);
         studio.insert (studio2);
         studio.print ();
-<<<<<<< HEAD
         
         movie.save ();
         cinema.save ();
@@ -110,7 +109,6 @@ class MovieDB
         starsIn.save();
         movieExec.save();
         studio.save();
-=======
 
 	movie.print();
         cinema.print();
@@ -118,7 +116,6 @@ class MovieDB
         starsIn.print();
         movieExec.print();
         studio.print();
->>>>>>> ffc96b65833f6a3c037844114efa113dc922efcb
 
         movieStar.printIndex ();
         
