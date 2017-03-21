@@ -31,7 +31,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
     /** The maximum fanout (number of children) for a B+Tree node.
      *  May wish to increase for better performance for Program 3.
      */
-    private static final int ORDER =5;
+    private static final int ORDER = 5;
     
     /** The maximum fanout (number of children) for a big B+Tree node.
      */
@@ -162,7 +162,6 @@ implements Serializable, Cloneable, SortedMap <K, V>
     /********************************************************************************
      * Return a set containing all the entries as pairs of keys and values.
      * @return  the set view of the map
-     * @author James Griffin
      */
     public Set <Entry <K, V>> entrySet ()
     {
@@ -177,6 +176,8 @@ implements Serializable, Cloneable, SortedMap <K, V>
             
             current = (Node) current.ref[ORDER-1];
         } // while
+        
+        //  T O   B E   I M P L E M E N T E D
         
         return enSet;
     } // entrySet
@@ -255,52 +256,31 @@ implements Serializable, Cloneable, SortedMap <K, V>
     /********************************************************************************
      * Return the portion of the B+Tree map whose keys are between fromKey and toKey,
      * i.e., fromKey <= key < toKey.
+     *
+     * STEPS:
+     * Set root to temp node
+     * Set to first leaf
+     * Input all entries
+     * Check through current tempNode
+     *
      * @author Edvin Dizdarevic
      * @return  the submap with keys in the range [fromKey, toKey)
      */
     @SuppressWarnings("unchecked")
     public SortedMap <K,V> subMap (K fromKey, K toKey) {
         BpTreeMap <K, V> newSubMap = new BpTreeMap <> (classK, classV);
-        K firstK, secondK;
         Node tempNode = root;
-        boolean LeafBool = false;
-        int I = 0;
         
-        if(fromKey == null){firstK = firstKey();}
-        else{firstK = fromKey;}
-        
-        if(toKey == null){secondK = lastKey();}
-        else{secondK = toKey;}
-        
-        while (!LeafBool) {
-            if (tempNode.ref[0].getClass() != Node.class){break;}
-            for (int i = 0; i < tempNode.nKeys; i++) {
-                K key = tempNode.key[i];
-                if (firstK.compareTo(key) < 0) {
-                    tempNode = (Node) tempNode.ref[i];
-                    break;
-                }
-                tempNode = (Node) tempNode.ref[tempNode.nKeys];
-            }
-        }
-        
-        for (int i = 0;i < tempNode.nKeys;i ++){
-            if (tempNode.key[i].compareTo(firstK) == 0){
-                I = i;
-                break;
-            }
-        }
-        
+        while (!tempNode.isLeaf){tempNode = (Node) tempNode.ref[0];}
         while (tempNode != null){
-            for (int i = I;i < tempNode.nKeys;i ++){
-                K key = tempNode.key[i];
-                if (key.compareTo(secondK) > 0){return newSubMap;}
-                newSubMap.put(key, (V) tempNode.ref[i]);
+            for (int i = 0; i < tempNode.nKeys; i++){
+                if (fromKey.compareTo(tempNode.key[i]) <= 0
+                    && toKey.compareTo(tempNode.key[i]) > 0){
+                    newSubMap.put(tempNode.key[i], (V) tempNode.ref[i]);
+                }
             }
             tempNode = (Node) tempNode.ref[ORDER-1];
-            I = 0;
         }
-        
         return newSubMap;
     } // subMap
     
@@ -572,7 +552,7 @@ implements Serializable, Cloneable, SortedMap <K, V>
         out.println("-----------------------SUBMAPPING TEST-----------------------");
         out.println("-------------------------------------------------------------");
         @SuppressWarnings("unchecked")
-        BpTreeMap <Integer, Integer> subTree = (BpTreeMap) bpt.subMap(5, 13);
+        BpTreeMap <Integer, Integer> subTree = (BpTreeMap) bpt.subMap(1, 15);
         subTree.print(subTree.root, 0);
         
         out.println("-------------------------------------------------------------");
