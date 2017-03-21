@@ -166,18 +166,21 @@ implements Serializable, Cloneable, SortedMap <K, V>
     public Set <Entry <K, V>> entrySet ()
     {
         Set <Entry <K, V>> enSet = new HashSet <> ();
-        Node current = (Node) root.ref[0];
+        Node current = root;
+        
+        while (!current.isLeaf) {
+            current = (Node) current.ref[0];
+        }
+        
         while (current != null)
         {
-            for (int i = 0; i < root.nKeys; i++)
+            for (int i = 0; i < current.nKeys; i++)
             {
                 enSet.add(new SimpleEntry(current.key[i], current.ref[i]));
             } // for
             
             current = (Node) current.ref[ORDER-1];
         } // while
-        
-        //  T O   B E   I M P L E M E N T E D
         
         return enSet;
     } // entrySet
