@@ -413,19 +413,21 @@ implements Serializable, Cloneable, SortedMap <K, V>
                     //handle when parent of split won't overflow
                     if(n.nKeys < ORDER - 1){
                         Node leftBig = (Node) nr.ref[nr.nKeys];
-                        newKey = leftBig.key[ORDER - 3];
-                        // System.out.println(leftBig);
-                        //System.out.println(newKey);
-                        wedge(newKey, rt, n, n.find (key), false);
-                        hasSplit = false;
+			if(leftBig.key[ORDER - 3] != null)
+			    newKey = leftBig.key[ORDER - 3];
+			else
+			    newKey = leftBig.key[ORDER - 4];
+			wedge(newKey, rt, n, n.find (key), false);
+			hasSplit = false;
                     }
                     //handle when parent of split will overflow
                     else{
                         if(n == root) {
                             Node leftBig = (Node) nr.ref[nr.nKeys];
-                            newKey = leftBig.key[ORDER - 3];
-                            //System.out.println(leftBig);
-                            //System.out.println(newKey);
+                            if(leftBig.key[ORDER - 3] != null)
+				newKey = leftBig.key[ORDER - 3];
+			    else
+				newKey = leftBig.key[ORDER - 4];
                             Node newRt = split(newKey, rt, n, false);
                             K rootKey = n.key[n.nKeys-1];
                             Node left = new Node (ORDER, false);
@@ -524,8 +526,8 @@ implements Serializable, Cloneable, SortedMap <K, V>
     @SuppressWarnings("unchecked")
     public static void main (String [] args)
     {
-        int totalKeys    = 25;
-        boolean RANDOMLY = false;
+        int totalKeys    = 100;
+        boolean RANDOMLY = true;
         int[] keys = {49, 11, 15, 42, 10, 30, 16, 32, 36, 51, 52, 13, 47, 48, 38, 40, 8, 9, 7, 6, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64};
         
         BpTreeMap <Integer, Integer> bpt = new BpTreeMap <> (Integer.class, Integer.class);
