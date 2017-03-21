@@ -5,7 +5,7 @@
  */
 
 import static java.lang.System.out;
-
+import java.io.*;
 /*****************************************************************************************
  * The test_package.MovieDB class makes a Movie Database.  It serves as a template for making other
  * databases.  See "Database Systems: The Complete Book", second edition, page 26 for more
@@ -17,9 +17,20 @@ class MovieDB
      * Main method for creating, populating and querying a Movie Database.
      * @param args  the command-line arguments
      */
-    public static void main (String [] args)
-    {
-        out.println ();
+    public static void main (String [] args) throws FileNotFoundException{
+	try{
+	PrintStream o = new PrintStream(new File("results.txt"));
+	PrintStream console  = System.out;
+	System.setOut(o);
+	}
+
+	catch(FileNotFoundException e){
+	    System.out.println("ERROR");
+	}
+
+	//System.out.println(this);
+
+        //out.println ();
         
         Table movie = new Table("movie", "title year length genre studioName producerNo",
                                 "String Integer Integer String String Integer", "title year");
@@ -84,25 +95,14 @@ class MovieDB
         studio.insert (studio1);
         studio.insert (studio2);
         studio.print ();
-<<<<<<< Updated upstream
-        
-        movie.save ();
-        cinema.save ();
-        movieStar.save ();
-        starsIn.save ();
-        movieExec.save ();
-        studio.save ();
-        
-=======
 
-	movie.save();
-        cinema.save();
-        movieStar.save();
-        starsIn.save();
-        movieExec.save();
-        studio.save();
+	movie.print();
+        cinema.print();
+        movieStar.print();
+        starsIn.print();
+        movieExec.print();
+        studio.print();
 
->>>>>>> Stashed changes
         movieStar.printIndex ();
         
         //--------------------- project: title year
