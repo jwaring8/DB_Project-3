@@ -67,7 +67,7 @@ public class TestTupleGenerator
 
         String [] tableStudent = { "Student"};
 
-        int[] size = new int[] {10000,50000,100000,200000,300000,400000};
+        int[] size = new int[] {150};
 
         for(int s = 0; s < size.length; s++) {
 

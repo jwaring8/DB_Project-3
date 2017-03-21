@@ -84,7 +84,6 @@ class MovieDB
         studio.insert (studio1);
         studio.insert (studio2);
         studio.print ();
-<<<<<<< Updated upstream
         
         movie.save ();
         cinema.save ();
@@ -93,8 +92,6 @@ class MovieDB
         movieExec.save ();
         studio.save ();
         
-=======
-
 	movie.save();
         cinema.save();
         movieStar.save();
@@ -102,7 +99,6 @@ class MovieDB
         movieExec.save();
         studio.save();
 
->>>>>>> Stashed changes
         movieStar.printIndex ();
         
         //--------------------- project: title year
