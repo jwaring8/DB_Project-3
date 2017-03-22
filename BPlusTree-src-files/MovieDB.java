@@ -18,6 +18,7 @@ class MovieDB
      * @param args  the command-line arguments
      */
     public static void main (String [] args) throws FileNotFoundException{
+
 	try{
 	PrintStream o = new PrintStream(new File("results.txt"));
 	PrintStream console  = System.out;
@@ -96,13 +97,6 @@ class MovieDB
         studio.insert (studio2);
         studio.print ();
         
-        movie.save ();
-        cinema.save ();
-        movieStar.save ();
-        starsIn.save ();
-        movieExec.save ();
-        studio.save ();
-        
 	movie.save();
         cinema.save();
         movieStar.save();
@@ -110,12 +104,12 @@ class MovieDB
         movieExec.save();
         studio.save();
 
-	movie.print();
-        cinema.print();
-        movieStar.print();
-        starsIn.print();
-        movieExec.print();
-        studio.print();
+	//movie.print();
+        //cinema.print();
+        //movieStar.print();
+        //starsIn.print();
+        //movieExec.print();
+        //studio.print();
 
         movieStar.printIndex ();
         

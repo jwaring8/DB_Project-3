@@ -1,0 +1,275 @@
+DDL> create table movie (title year length genre studioName producerNo)
+DDL> create table cinema (title year length genre studioName producerNo)
+DDL> create table movieStar (name address gender birthdate)
+DDL> create table starsIn (movieTitle movieYear starName)
+DDL> create table movieExec (certNo name address fee)
+DDL> create table studio (name address presNo)
+
+DML> insert into movie values ( [Star_Wars, 1977, 124, sciFi, Fox, 12345] )
+=============================================================
+insert: key = Key ( Star_Wars 1977 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Star_Wars 1977 ) . ]
+-------------------------------------------
+DML> insert into movie values ( [Star_Wars_2, 1980, 124, sciFi, Fox, 12345] )
+=============================================================
+insert: key = Key ( Star_Wars_2 1980 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Star_Wars 1977 ) . Key ( Star_Wars_2 1980 ) . ]
+-------------------------------------------
+DML> insert into movie values ( [Rocky, 1985, 200, action, Universal, 12125] )
+=============================================================
+insert: key = Key ( Rocky 1985 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Rocky 1985 ) . Key ( Star_Wars 1977 ) . Key ( Star_Wars_2 1980 ) . ]
+-------------------------------------------
+DML> insert into movie values ( [Rambo, 1978, 100, action, Universal, 32355] )
+=============================================================
+insert: key = Key ( Rambo 1978 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Rambo 1978 ) . Key ( Rocky 1985 ) . Key ( Star_Wars 1977 ) . Key ( Star_Wars_2 1980 ) . ]
+-------------------------------------------
+
+ main_package.Table movie
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345 |
+|     Star_Wars_2           1980            124          sciFi            Fox          12345 |
+|           Rocky           1985            200         action      Universal          12125 |
+|           Rambo           1978            100         action      Universal          32355 |
+|--------------------------------------------------------------------------------------------|
+
+DML> insert into cinema values ( [Rocky, 1985, 200, action, Universal, 12125] )
+=============================================================
+insert: key = Key ( Rocky 1985 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Rocky 1985 ) . ]
+-------------------------------------------
+DML> insert into cinema values ( [Rambo, 1978, 100, action, Universal, 32355] )
+=============================================================
+insert: key = Key ( Rambo 1978 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Rambo 1978 ) . Key ( Rocky 1985 ) . ]
+-------------------------------------------
+DML> insert into cinema values ( [Galaxy_Quest, 1999, 104, comedy, DreamWorks, 67890] )
+=============================================================
+insert: key = Key ( Galaxy_Quest 1999 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Galaxy_Quest 1999 ) . Key ( Rambo 1978 ) . Key ( Rocky 1985 ) . ]
+-------------------------------------------
+
+ main_package.Table cinema
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|           Rocky           1985            200         action      Universal          12125 |
+|           Rambo           1978            100         action      Universal          32355 |
+|    Galaxy_Quest           1999            104         comedy     DreamWorks          67890 |
+|--------------------------------------------------------------------------------------------|
+
+DML> insert into movieStar values ( [Carrie_Fisher, Hollywood, F, 9/9/99] )
+=============================================================
+insert: key = Key ( Carrie_Fisher )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Carrie_Fisher ) . ]
+-------------------------------------------
+DML> insert into movieStar values ( [Mark_Hamill, Brentwood, M, 8/8/88] )
+=============================================================
+insert: key = Key ( Mark_Hamill )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Carrie_Fisher ) . Key ( Mark_Hamill ) . ]
+-------------------------------------------
+DML> insert into movieStar values ( [Harrison_Ford, Beverly_Hills, M, 7/7/77] )
+=============================================================
+insert: key = Key ( Harrison_Ford )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Carrie_Fisher ) . Key ( Harrison_Ford ) . Key ( Mark_Hamill ) . ]
+-------------------------------------------
+
+ main_package.Table movieStar
+|--------------------------------------------------------------|
+|            name        address         gender      birthdate |
+|--------------------------------------------------------------|
+|   Carrie_Fisher      Hollywood              F         9/9/99 |
+|     Mark_Hamill      Brentwood              M         8/8/88 |
+|   Harrison_Ford  Beverly_Hills              M         7/7/77 |
+|--------------------------------------------------------------|
+
+DML> insert into starsIn values ( [Star_Wars, 1977, Carrie_Fisher] )
+=============================================================
+insert: key = Key ( Star_Wars 1977 Carrie_Fisher )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Star_Wars 1977 Carrie_Fisher ) . ]
+-------------------------------------------
+
+ main_package.Table starsIn
+|-----------------------------------------------|
+|      movieTitle      movieYear       starName |
+|-----------------------------------------------|
+|       Star_Wars           1977  Carrie_Fisher |
+|-----------------------------------------------|
+
+DML> insert into movieExec values ( [9999, S_Spielberg, Hollywood, 10000.0] )
+=============================================================
+insert: key = Key ( 9999 )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( 9999 ) . ]
+-------------------------------------------
+
+ main_package.Table movieExec
+|--------------------------------------------------------------|
+|          certNo           name        address            fee |
+|--------------------------------------------------------------|
+|            9999    S_Spielberg      Hollywood        10000.0 |
+|--------------------------------------------------------------|
+
+DML> insert into studio values ( [Fox, Los_Angeles, 7777] )
+=============================================================
+insert: key = Key ( Fox )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Fox ) . ]
+-------------------------------------------
+DML> insert into studio values ( [Universal, Universal_City, 8888] )
+=============================================================
+insert: key = Key ( Universal )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( Fox ) . Key ( Universal ) . ]
+-------------------------------------------
+DML> insert into studio values ( [DreamWorks, Universal_City, 9999] )
+=============================================================
+insert: key = Key ( DreamWorks )
+=============================================================
+BpTreeMap
+-------------------------------------------
+[ . Key ( DreamWorks ) . Key ( Fox ) . Key ( Universal ) . ]
+-------------------------------------------
+
+ main_package.Table studio
+|-----------------------------------------------|
+|            name        address         presNo |
+|-----------------------------------------------|
+|             Fox    Los_Angeles           7777 |
+|       Universal Universal_City           8888 |
+|      DreamWorks Universal_City           9999 |
+|-----------------------------------------------|
+
+ Index for movieStar
+-------------------
+Key ( Harrison_Ford ) -> [Harrison_Ford, Beverly_Hills, M, 7/7/77]
+Key ( Carrie_Fisher ) -> [Carrie_Fisher, Hollywood, F, 9/9/99]
+Key ( Mark_Hamill ) -> [Mark_Hamill, Brentwood, M, 8/8/88]
+-------------------
+
+RA> movie.project (title year)
+
+ main_package.Table movie0
+|--------------------------------|
+|           title           year |
+|--------------------------------|
+|       Star_Wars           1977 |
+|     Star_Wars_2           1980 |
+|           Rocky           1985 |
+|           Rambo           1978 |
+|--------------------------------|
+
+RA> movie.select (MovieDB$$Lambda$1/681842940@1f32e575)
+
+ main_package.Table movie1
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345 |
+|--------------------------------------------------------------------------------------------|
+
+RA> movie.select (MovieDB$$Lambda$7/1450495309@63961c42)
+
+ main_package.Table movie2
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345 |
+|           Rambo           1978            100         action      Universal          32355 |
+|--------------------------------------------------------------------------------------------|
+
+RA> movieStar.select (Key ( Harrison_Ford ))
+
+ main_package.Table movieStar3
+|--------------------------------------------------------------|
+|            name        address         gender      birthdate |
+|--------------------------------------------------------------|
+|   Harrison_Ford  Beverly_Hills              M         7/7/77 |
+|--------------------------------------------------------------|
+
+RA> movie.union (cinema)
+
+ main_package.Table movie4
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345 |
+|     Star_Wars_2           1980            124          sciFi            Fox          12345 |
+|           Rocky           1985            200         action      Universal          12125 |
+|           Rambo           1978            100         action      Universal          32355 |
+|    Galaxy_Quest           1999            104         comedy     DreamWorks          67890 |
+|--------------------------------------------------------------------------------------------|
+
+RA> movie.minus (cinema)
+
+ main_package.Table movie5
+|--------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo |
+|--------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345 |
+|     Star_Wars_2           1980            124          sciFi            Fox          12345 |
+|--------------------------------------------------------------------------------------------|
+
+RA> movie.join (studioName, name, studio)
+
+ main_package.Table movie6
+|-----------------------------------------------------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo           name        address         presNo |
+|-----------------------------------------------------------------------------------------------------------------------------------------|
+|       Star_Wars           1977            124          sciFi            Fox          12345            Fox    Los_Angeles           7777 |
+|     Star_Wars_2           1980            124          sciFi            Fox          12345            Fox    Los_Angeles           7777 |
+|           Rocky           1985            200         action      Universal          12125      Universal Universal_City           8888 |
+|           Rambo           1978            100         action      Universal          32355      Universal Universal_City           8888 |
+|-----------------------------------------------------------------------------------------------------------------------------------------|
+
+RA> movie.join (cinema)
+
+ main_package.Table movie7
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|           title           year         length          genre     studioName     producerNo         title2          year2        length2         genre2    studioName2    producerNo2 |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|           Rocky           1985            200         action      Universal          12125 |
+|           Rambo           1978            100         action      Universal          32355 |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
