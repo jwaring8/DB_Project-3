@@ -17,21 +17,8 @@ class MovieDB
      * Main method for creating, populating and querying a Movie Database.
      * @param args  the command-line arguments
      */
-    public static void main (String [] args) throws FileNotFoundException{
-
-	try{
-	PrintStream o = new PrintStream(new File("results.txt"));
-	PrintStream console  = System.out;
-	System.setOut(o);
-	}
-
-	catch(FileNotFoundException e){
-	    System.out.println("ERROR");
-	}
-
-	//System.out.println(this);
-
-        //out.println ();
+    public static void main (String [] args){ 
+        out.println ();
         
         Table movie = new Table("movie", "title year length genre studioName producerNo",
                                 "String Integer Integer String String Integer", "title year");
@@ -104,12 +91,12 @@ class MovieDB
         movieExec.save();
         studio.save();
 
-	//movie.print();
-        //cinema.print();
-        //movieStar.print();
-        //starsIn.print();
-        //movieExec.print();
-        //studio.print();
+	movie.print();
+	cinema.print();
+        movieStar.print();
+        starsIn.print();
+        movieExec.print();
+        studio.print();
 
         movieStar.printIndex ();
         
